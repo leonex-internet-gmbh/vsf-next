@@ -25,15 +25,24 @@
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
+    "build:m2:api-client": "cd packages/magento/api-client && yarn build",
+    "build:m2:composables": "cd packages/magento/composables && yarn build",
+    "build:m2:tools": "yarn build:core && yarn build:m2:api-client && yarn build:m2:composables",
+    "build:m2:theme": "cd packages/magento/theme && yarn build",
+    "build:m2": "yarn build:core && yarn build:m2:tools && yarn build:m2:theme",
     "test:ay:api-client": "cd packages/about-you/api-client && yarn test --coverage",
     "test:ay:composables": "cd packages/about-you/composables && yarn test --coverage",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test --coverage",
     "test:ct:composables": "cd packages/commercetools/composables && yarn test --coverage",
+    "test:m2:api-client": "cd packages/magento/api-client && yarn test --coverage",
+    "test:m2:composables": "cd packages/magento/composables && yarn test --coverage",
     "test:core": "jest -c ./packages/core/jest.config.js --coverage",
     "test:prismic": "cd packages/prismic && yarn test",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
+    "test:m2": "yarn test:m2:api-client && yarn test:m2:composables",
     "start:ay": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
+    "start:m2": "cd packages/magento/theme && yarn start",
     "dev:ay:api-client": "cd packages/about-you/api-client && yarn dev",
     "dev:ay:composables": "cd packages/about-you/composables && yarn dev",
     "dev:ct:api-client": "cd packages/commercetools/api-client && yarn dev",
@@ -41,6 +50,7 @@
     "dev:ay": "cd packages/about-you/theme && yarn dev",
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
+    "dev:m2": "cd packages/magento/theme && yarn dev",
     "lint": "eslint . --ext .js,.ts,.vue"
   },
   "devDependencies": {
@@ -78,7 +88,8 @@
       "packages/boilerplate/*",
       "packages/core/*",
       "packages/prismic",
-      "packages/about-you/*"
+      "packages/about-you/*",
+      "packages/magento/*"
     ],
     "nohoist": [
       "**/**/**"
