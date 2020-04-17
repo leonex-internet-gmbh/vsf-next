@@ -36,18 +36,18 @@ export default {
       coreDevelopment: true,
       useRawSource: {
         dev: [
-          '@vue-storefront/boilerplate-composables',
+          '@vue-storefront/boilerplate',
           '@vue-storefront/core'
         ],
         prod: [
-          '@vue-storefront/boilerplate-composables',
+          '@vue-storefront/boilerplate',
           '@vue-storefront/core'
         ]
       }
     }],
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/boilerplate-api',
-      composables: '@vue-storefront/boilerplate-composables'
+      composables: '@vue-storefront/boilerplate'
     }]
   ],
   modules: [
