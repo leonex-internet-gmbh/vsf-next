@@ -1,7 +1,4 @@
 import webpack from 'webpack';
-import { config } from './plugins/boilerplate-config';
-
-const localeNames = config.locales.map(l => l.name);
 
 export default {
   mode: 'universal',
@@ -70,11 +67,11 @@ export default {
     ]
   },
   i18n: {
-    locales: localeNames,
-    defaultLocale: localeNames[0],
+    locales: ['en'],
+    defaultLocale: 'en',
     strategy: 'no_prefix',
     vueI18n: {
-      fallbackLocale: localeNames[0],
+      fallbackLocale: 'en',
       messages: {
         en: {
           welcome: 'Welcome 1'
@@ -83,10 +80,6 @@ export default {
           welcome: 'Welcome 2'
         }
       }
-    },
-    detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName,
-      alwaysRedirect: true
     }
   }
 };
