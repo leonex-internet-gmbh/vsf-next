@@ -37,13 +37,11 @@ export default {
       useRawSource: {
         dev: [
           '@vue-storefront/boilerplate-composables',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/core'
         ],
         prod: [
           '@vue-storefront/boilerplate-composables',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/core'
         ]
       }
     }],

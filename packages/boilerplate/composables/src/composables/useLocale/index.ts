@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
-import { UseLocale, AgnosticCountry, AgnosticCurrency, AgnosticLocale } from '@vue-storefront/interfaces';
-import { useLocaleFactory, UseLocaleFactoryParams } from '@vue-storefront/factories';
+import { UseLocale, AgnosticCountry, AgnosticCurrency, AgnosticLocale, useLocaleFactory, UseLocaleFactoryParams } from '@vue-storefront/core';
 
 const params: UseLocaleFactoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

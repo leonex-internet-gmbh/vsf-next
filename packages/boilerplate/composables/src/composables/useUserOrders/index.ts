@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
-import { useUserOrdersFactory, UseUserOrdersFactoryParams } from '@vue-storefront/factories';
+import { useUserOrdersFactory, UseUserOrdersFactoryParams, SearchResult } from '@vue-storefront/core';
 import { Order, OrderSearchParams } from '../../types';
-import { SearchResult } from '@vue-storefront/interfaces';
 
 // @todo userOrders
 

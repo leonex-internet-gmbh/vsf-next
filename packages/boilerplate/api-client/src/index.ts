@@ -1,6 +1,6 @@
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
-import { apiClientFactory } from '@vue-storefront/factories';
+import { apiClientFactory } from '@vue-storefront/core';
 
 const { setup, override } = apiClientFactory<any, any>({
   defaultSettings: {},
