@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { ComputedProperty, UseWishlist } from '@vue-storefront/interfaces';
+import { ComputedProperty, UseWishlist } from '@vue-storefront/core';
 import { computed, Ref, ref } from '@vue/composition-api';
 import { Product, Wishlist, WishlistProduct } from '../../types';
 

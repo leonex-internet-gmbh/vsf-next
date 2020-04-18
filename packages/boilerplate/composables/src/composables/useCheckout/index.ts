@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { UseCheckout } from '@vue-storefront/interfaces';
+import { UseCheckout } from '@vue-storefront/core';
 import { ref, Ref, computed } from '@vue/composition-api';
 import { User, ShippingMethod, UserAddress } from '../../types';
 

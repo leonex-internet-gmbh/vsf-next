@@ -3,7 +3,7 @@ import {
   AgnosticAttribute,
   AgnosticPrice,
   ProductGetters
-} from '@vue-storefront/interfaces';
+} from '@vue-storefront/core';
 import { ProductVariant } from '@vue-storefront/boilerplate-api/src/types';
 
 type ProductVariantFilters = any
@@ -47,6 +47,8 @@ export const getProductCategoryIds = (product: ProductVariant): string[] => (pro
 
 export const getProductId = (product: ProductVariant): string => (product as any)._id;
 
+export const getFormattedPrice = (price: number) => String(price);
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -57,7 +59,8 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getAttributes: getProductAttributes,
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
-  getId: getProductId
+  getId: getProductId,
+  getFormattedPrice: getFormattedPrice
 };
 
 export default productGetters;
