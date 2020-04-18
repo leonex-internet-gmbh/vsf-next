@@ -1,5 +1,4 @@
-import { UseCategory } from '@vue-storefront/interfaces';
-import { UseProduct } from '@vue-storefront/interfaces';
+import { UseCategory, UseProduct } from '@vue-storefront/core';
 
 // @todo: replace with real types
 
@@ -36,6 +35,10 @@ type Order = {
 
 }
 
+type OrderItem = {
+
+}
+
 type OrderSearchParams = {
 
 }
@@ -58,6 +61,7 @@ export {
   Category,
   Coupon,
   Order,
+  OrderItem,
   OrderSearchParams,
   Product,
   ShippingMethod,

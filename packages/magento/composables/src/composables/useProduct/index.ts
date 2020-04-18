@@ -1,7 +1,6 @@
 import { getProduct } from '@vue-storefront/magento-api';
-import { useProductFactory } from '@vue-storefront/factories';
+import { useProductFactory, SearchResult } from '@vue-storefront/core';
 import { UseProduct, Product } from '../../types';
-import {SearchResult} from '@vue-storefront/interfaces';
 
 const productsSearch = async (params): Promise<SearchResult<Product>> => {
   const searchParams = {

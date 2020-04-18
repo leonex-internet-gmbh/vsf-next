@@ -1,7 +1,4 @@
 import webpack from 'webpack';
-import { config } from './plugins/magento-config';
-
-const localeNames = config.locales.map(l => l.name);
 
 export default {
   mode: 'universal',
@@ -36,20 +33,18 @@ export default {
       coreDevelopment: true,
       useRawSource: {
         dev: [
-          '@vue-storefront/magento-composables',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/magento',
+          '@vue-storefront/core'
         ],
         prod: [
-          '@vue-storefront/magento-composables',
-          '@vue-storefront/utils',
-          '@vue-storefront/factories'
+          '@vue-storefront/magento',
+          '@vue-storefront/core'
         ]
       }
     }],
     ['@vue-storefront/nuxt-theme', {
       apiClient: '@vue-storefront/magento-api',
-      composables: '@vue-storefront/magento-composables'
+      composables: '@vue-storefront/magento'
     }]
   ],
   modules: [
@@ -72,11 +67,11 @@ export default {
     ]
   },
   i18n: {
-    locales: localeNames,
-    defaultLocale: localeNames[0],
+    locales: ['en'],
+    defaultLocale: 'en',
     strategy: 'no_prefix',
     vueI18n: {
-      fallbackLocale: localeNames[0],
+      fallbackLocale: 'en',
       messages: {
         en: {
           welcome: 'Welcome 1'
@@ -85,10 +80,6 @@ export default {
           welcome: 'Welcome 2'
         }
       }
-    },
-    detectBrowserLanguage: {
-      cookieKey: config.cookies.localeCookieName,
-      alwaysRedirect: true
     }
   }
 };

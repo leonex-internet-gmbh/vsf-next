@@ -1,9 +1,7 @@
 /* istanbul ignore file */
 
-import { UseUser } from '@vue-storefront/interfaces';
+import { UseUser, useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
 import { User } from '../../types';
-
-import {useUserFactory, UseUserFactoryParams} from '@vue-storefront/factories';
 
 // @todo useUser
 
