@@ -26,6 +26,15 @@ export default {
   plugins: [
     './plugins/magento.js'
   ],
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.push({
+        name: 'router',
+        path: '*',
+        component: resolve(__dirname, '.theme/pages/Router.vue')
+      });
+    }
+  },
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -50,8 +59,18 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
+  proxy: {
+    '/api': {
+      target: 'http://demoshops.splendid-internet.de/magento/demoshop-magento2-daily/',
+      pathRewrite: {
+        '^/api': '/graphql'
+      }
+    }
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'

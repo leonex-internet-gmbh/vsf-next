@@ -9,6 +9,7 @@ import useLocale from './composables/useLocale';
 import useUserOrders from './composables/useUserOrders';
 import useContent from './composables/useContent';
 import useWishlist from './composables/useWishlist';
+import useRouter from './composables/useRouter';
 
 import {
   cartGetters,
@@ -29,6 +30,7 @@ export {
   useUserOrders,
   useContent,
   useWishlist,
+  useRouter,
   cartGetters,
   categoryGetters,
   checkoutGetters,

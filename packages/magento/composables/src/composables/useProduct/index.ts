@@ -8,8 +8,7 @@ const productsSearch = async (params): Promise<SearchResult<Product>> => {
     with: params.term,
     where: params.term,
     sort: params.sort,
-    page: params.pagination.page,
-    masterKey: '',
+    page: params.page,
     term: params.term
   };
 

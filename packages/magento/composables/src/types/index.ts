@@ -1,4 +1,4 @@
-import { UseCategory, UseProduct } from '@vue-storefront/core';
+import {ComputedProperty, UseCategory, UseProduct} from '@vue-storefront/core';
 
 // @todo: replace with real types
 
@@ -55,6 +55,16 @@ type Wishlist = {
 
 }
 
+type Route = {
+
+}
+
+interface UseRouter<ROUTE> {
+  route: ComputedProperty<ROUTE>;
+  search: (url: string) => Promise<void>;
+  loading: ComputedProperty<boolean>;
+}
+
 export {
   Cart,
   CartItem,
@@ -70,5 +80,7 @@ export {
   Wishlist,
   WishlistProduct,
   UseCategory,
-  UseProduct
+  UseProduct,
+  UseRouter,
+  Route
 };
