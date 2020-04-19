@@ -4,8 +4,8 @@ import {query, filteredQuery} from './query';
 import {ApolloQueryResult} from 'apollo-client';
 
 export default async function (categoryFilter?: CategoryFilterInput): Promise<ApolloQueryResult<categoryList>> {
-  if (settings.overrides.getCategory) {
-    return settings.overrides.getCategory();
+  if (settings.overrides.categoryList) {
+    return settings.overrides.categoryList(categoryFilter);
   }
   if (!categoryFilter) {
     return await apolloClient.query<categoryList>({

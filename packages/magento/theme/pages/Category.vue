@@ -6,7 +6,7 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <h1 class="navbar__title">Categories</h1>
+        <h1 class="navbar__title">{{ category.name }}</h1>
       </div>
       <div class="navbar__main">
         <SfButton
@@ -115,7 +115,7 @@
     </div>
     <div class="main section">
       <div class="sidebar desktop-only">
-        <SfLoader :class="{ loading }" :loading="loading">
+        <SfLoader :class="{ categoryTreeLoading }" :loading="categoryTreeLoading">
           <SfAccordion :firstOpen="true" :showChevron="false">
             <SfAccordionItem
               v-for="(cat, i) in categoryTree && categoryTree.items"
@@ -153,9 +153,9 @@
           class="products__grid"
         >
           <SfProductCard
-            v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
-            :style="{ '--index': i }"
+            v-for="(product, j) in products"
+            :key="productGetters.getSlug(product, category)"
+            :style="{ '--index': j }"
             :title="productGetters.getName(product)"
             :image="productGetters.getCoverImage(product)"
             :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
@@ -163,8 +163,8 @@
             :max-rating="5"
             :score-rating="3"
             :isOnWishlist="false"
-            @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            @click:wishlist="toggleWishlist(j)"
+            :link="productGetters.getSlug(product, category)"
             class="products__product-card"
           />
         </transition-group>
@@ -177,7 +177,7 @@
         >
           <SfProductCardHorizontal
             v-for="(product, i) in products"
-            :key="productGetters.getSlug(product)"
+            :key="productGetters.getSlug(product, category)"
             :style="{ '--index': i }"
             :title="productGetters.getName(product)"
             :description="productGetters.getDescription(product)"
@@ -189,7 +189,7 @@
             :is-on-wishlist="false"
             class="products__product-card-horizontal"
             @click:wishlist="toggleWishlist(i)"
-            :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+            :link="productGetters.getSlug(product, category)"
           />
         </transition-group>
         <SfPagination
@@ -356,12 +356,6 @@ const filters = {
   ]
 };
 
-// TODO: to be implemented in https://github.com/DivanteLtd/next/issues/211
-const breadcrumbs = [
-  { text: 'Home', route: { link: '#' } },
-  { text: 'Women', route: { link: '#' } }
-];
-
 function updateFilter() {}
 
 function clearAllFilters() {
@@ -394,9 +388,12 @@ export default {
       await search(searchParameters);
 
       await productsSearch({
-        catId: (categories.value[0] || {}).id,
-        page: currentPage.value,
-        perPage: itemsPerPage.value
+        filter: {
+          // eslint-disable-next-line @typescript-eslint/camelcase,camelcase
+          category_id: {eq: (categories.value[0] || {}).id}
+        },
+        pageSize: itemsPerPage.value,
+        currentPage: currentPage.value
       });
     });
 
@@ -404,9 +401,12 @@ export default {
       if (categories.value.length) {
 
         productsSearch({
-          catId: categories.value[0].id,
-          page: currentPage.value,
-          perPage: itemsPerPage.value
+          filter: {
+            // eslint-disable-next-line @typescript-eslint/camelcase,camelcase
+            category_id: {eq: (categories.value[0] || {}).id}
+          },
+          pageSize: itemsPerPage.value,
+          currentPage: currentPage.value
         });
         context.root.$router.push({ query: {
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
@@ -415,10 +415,12 @@ export default {
       }
     });
 
-    const products = computed(() => productGetters.getFiltered(categoryProducts.value, { master: true}));
+    const products = computed(() => {
+      return productGetters.getFiltered(categoryProducts.value.items, { master: true});
+    });
     const categoryTree = computed(() => categoryGetters.getTree(categoriesInRootTree.value[0]));
 
-    const getCategoryUrl = (slug) => '/' + slug;
+    const getCategoryUrl = (slug) => slug;
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
     const sortBy = ref('price-up');
@@ -433,8 +435,22 @@ export default {
       currentPage.value = pageNumber;
       context.root.$scrollTo(context.root.$el, 2000);
     };
+    const breadcrumbs = computed(() => {
+      if (loading.value || !categories.value[0]) {
+        return [];
+      }
+      return categoryGetters.getBreadCrumbs(categories.value[0]);
+    });
+
+    const category = computed(() => {
+      if (loading.value || !categories.value[0]) {
+        return {};
+      }
+      return categories.value[0];
+    });
 
     return {
+      category,
       products,
       productsLoading,
       categoryTree,
@@ -452,7 +468,7 @@ export default {
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
       filters: ref(filters),
-      breadcrumbs: computed(() => breadcrumbs),
+      breadcrumbs: breadcrumbs,
       updateFilter,
       clearAllFilters,
       toggleWishlist,

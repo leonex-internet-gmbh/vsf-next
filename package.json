@@ -48,7 +48,7 @@
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
     "dev:m2": "cd packages/magento/theme && yarn dev",
-    "lint": "eslint . --ext .js,.ts,.vue"
+    "lint": "eslint . --ext .js,.ts,.vue --fix"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",

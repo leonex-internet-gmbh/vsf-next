@@ -65,6 +65,13 @@ interface UseRouter<ROUTE> {
   loading: ComputedProperty<boolean>;
 }
 
+interface Breadcrumb {
+  text: string;
+  route: {
+    path: string;
+  };
+}
+
 export {
   Cart,
   CartItem,
@@ -82,5 +89,6 @@ export {
   UseCategory,
   UseProduct,
   UseRouter,
-  Route
+  Route,
+  Breadcrumb
 };

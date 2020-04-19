@@ -4,52 +4,103 @@ import {
   AgnosticPrice,
   ProductGetters
 } from '@vue-storefront/core';
-import { ProductVariant } from '@vue-storefront/magento-api/src/types';
+import { Product, Category } from '@vue-storefront/magento-api';
 
 type ProductVariantFilters = any
 
-// TODO: Add interfaces for some of the methods in core
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => 'product name';
+export const getProductName = (product: Product): string => product.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: ProductVariant): string => 'product-slug';
+export const getProductSlug = (product: Product, category?: Category): string => {
+  console.log(product, category);
+  const rewrites = product.url_rewrites;
+  let url = '/p/' + product.sku;
+  if (!rewrites) {
+    return url;
+  }
+  loopOuter:
+  for (let i = 0; i < rewrites.length; i++) {
+    const rewrite = rewrites[i];
+    if (category && category.id && rewrite.parameters) {
+      for (let j = 0; j < rewrite.parameters.length; j++) {
+        const parameter = rewrite.parameters[j];
+        // eslint-disable-next-line max-depth
+        if (parameter.name === 'category' && parameter.value === category.id) {
+          url = '/' + rewrite.url;
+          break loopOuter;
+        }
+      }
+    } else if (rewrite.parameters.length === 1) {
+      url = '/' + rewrite.url;
+      break;
+    }
+  }
+
+  return url;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductPrice = (product: ProductVariant): AgnosticPrice => {
+export const getProductPrice = (product: Product): AgnosticPrice => {
+  let regular = 0;
+  let special = null;
+  if (product.price_range) {
+    regular = product.price_range.minimum_price.regular_price.value;
+    const final = product.price_range.minimum_price.final_price.value;
+    if (final < regular) {
+      special = final;
+    }
+  }
+
   return {
-    regular: 0,
-    special: 0
+    regular: regular,
+    special: special
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => [];
+export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: ProductVariant): string => '';
+export const getProductCoverImage = (product: Product): string => {
+  if (!product) {
+    return null;
+  }
+
+  if (product.small_image) {
+    return product.small_image.url;
+  }
+
+  return '';
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
+export const getProductFiltered = (products: Product[], filters: ProductVariantFilters | any = {}): Product[] => {
   return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   return {};
 };
 
-export const getProductDescription = (product: ProductVariant): any => (product as any)._description;
+export const getProductDescription = (product: Product): any => (product as any)._description;
 
-export const getProductCategoryIds = (product: ProductVariant): string[] => (product as any)._categoriesRef;
+export const getProductCategoryIds = (product: Product): string[] => (product as any)._categoriesRef;
 
-export const getProductId = (product: ProductVariant): string => (product as any)._id;
+export const getProductId = (product: Product): string => product.id;
 
-export const getFormattedPrice = (price: number) => String(price);
+export const getFormattedPrice = (price: number) => {
+  if (price === null) {
+    return null;
+  }
 
-const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
+  return String(price);
+};
+
+const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

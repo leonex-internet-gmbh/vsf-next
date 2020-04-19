@@ -3,17 +3,22 @@
     <div v-if="routeType.type === 'CATEGORY'">
       <Category :category-id="routeType.id"/>
     </div>
+    <div v-if="routeType.type === 'PRODUCT'">
+      <Product :product-id="routeType.id"/>
+    </div>
   </div>
 </template>
 <script>
 import {useRouter} from '@vue-storefront/magento';
 import Category from './Category';
+import Product from './Product';
 import { computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
   components: {
-    Category
+    Category,
+    Product
   },
   setup(props, context) {
     const { path } = context.root.$route;
@@ -34,7 +39,8 @@ export default {
 
     return {
       routeType,
-      Category
+      Category,
+      Product
     };
   }
 

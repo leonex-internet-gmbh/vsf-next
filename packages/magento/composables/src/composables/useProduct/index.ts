@@ -1,26 +1,23 @@
-import { getProduct } from '@vue-storefront/magento-api';
+import { products } from '@vue-storefront/magento-api';
 import { useProductFactory, SearchResult } from '@vue-storefront/core';
-import { UseProduct, Product } from '../../types';
+import { UseProduct } from '../../types';
+import {ProductAttributeFilter, ProductAttributeSortInput, ProductList} from '@vue-storefront/magento-api';
 
-const productsSearch = async (params): Promise<SearchResult<Product>> => {
-  const searchParams = {
-    ids: params.ids,
-    with: params.term,
-    where: params.term,
-    sort: params.sort,
-    page: params.page,
-    term: params.term
-  };
+const productsSearch = async (params: {search?: string;
+                              filter?: ProductAttributeFilter;
+                              pageSize?: number;
+                              currentPage?: number;
+                              sort?: ProductAttributeSortInput;}): Promise<SearchResult<ProductList>> => {
 
-  const products = await getProduct(searchParams);
+  const productResults = await products(params.search, params.filter, params.pageSize, params.currentPage, params.sort);
 
   return {
-    data: products,
-    total: products.length
+    data: productResults.data.products,
+    total: productResults.data.products.total_count
   };
 };
 
-const useProduct: (cacheId: string) => UseProduct<Product> = useProductFactory<Product, any>({
+const useProduct: (cacheId: string) => UseProduct<ProductList> = useProductFactory<ProductList, any>({
   productsSearch
 });
 

@@ -1,3 +1,4 @@
+import exp from "constants";
 
 export type categoryList = [CategoryTree]
 
@@ -14,6 +15,11 @@ type FilterEqualTypeInput = {
 
 type FilterMatchTypeInput = {
   match: string
+}
+
+type FilterRangeTypeInput = {
+  from: string,
+  to: string
 }
 
 export interface CategoryTree extends CategoryInterface {
@@ -131,7 +137,7 @@ export type ProductLinksInterface = {
 
 export type ProductLinks = ProductLinksInterface
 
-enum ProductStockStatus {
+export enum ProductStockStatus {
   IN_STOCK = 'IN_STOCK',
   OUT_OF_STOCK = 'OUT_OF_STOCK'
 }
@@ -396,4 +402,54 @@ enum UrlRewriteEntityTypeEnum {
   CMS_PAGE = 'CMS_PAGE',
   PRODUCT = 'PRODUCT',
   CATEGORY = 'CATEGORY'
+}
+
+export type Products = {
+  aggregations: [Aggregation]
+  items: [ProductInterface]
+  page_info: SearchResultPageInfo
+  sort_fields: SortFields
+  total_count: number
+}
+
+export type Aggregation = {
+  attribute_code: string
+  count: number
+  label: String
+  options: [AggregationOption]
+}
+
+export type AggregationOption = {
+  count: number
+  label: string
+  value: string
+}
+
+export type SortFields = {
+  default: String
+  options: [SortField]
+}
+
+export type SortField = {
+  label: string
+  value: string
+}
+
+export type ProductAttributeFilterInput = {
+  category_id: FilterEqualTypeInput
+  description: FilterMatchTypeInput
+  name: FilterMatchTypeInput
+  price: FilterRangeTypeInput
+  short_description: FilterMatchTypeInput
+}
+
+export type ProductAttributeSortInput = {
+  name: SortEnum
+  position: SortEnum
+  price: SortEnum
+  relevance: SortEnum
+}
+enum SortEnum {
+  ASC = 'ASC',
+  DESC = 'DESC'
 }
